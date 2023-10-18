@@ -1,0 +1,26 @@
+{
+  "name": "epay-web-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.9.7",
+    "axios": "^1.5.1",
+    "bootstrap": "^5.3.2",
+    "classnames": "^2.3.2",
+    "dotenv": "^16.3.1",
+    "next": "13.5.4",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-hook-form": "^7.47.0",
+    "react-otp-input": "^3.1.0",
+    "react-phone-input-2": "^2.15.1",
+    "react-redux": "^8.1.3",
+    "react-toastify": "^9.1.3"
+  }
+}

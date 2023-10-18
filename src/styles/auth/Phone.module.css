@@ -1,0 +1,75 @@
+.phonelogin{
+    /* padding: 3rem 0; */
+    height: auto;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(230deg,#f9fcff 57.92%,#bdb3f4 109.21%);
+}
+.phonelogin .colsecNum{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.phonelogin .phoneNumber{
+}
+.phonelogin .phoneNumber h3{
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    display: block;
+    width: 100%;
+    margin: 20px 0 30px;
+    font-weight: bold;
+    font-size: 24px;
+    color: #000;
+}
+.phonelogin .phoneNumber form{
+    width: 100%;
+    
+}
+.phonelogin .phoneNumber form .otpBtn{
+    color: #616161;
+    text-transform: capitalize;
+    margin: 20px 0;
+    width: 100%;
+    font-size: 16px;
+    /* background: #dbddde; */
+    padding: 8px 15px;
+    max-height: 40px;
+    /* opacity: .5; */
+    border: none;
+    border-radius: 4px;
+    background: linear-gradient(109.33deg,#2341d5 -8.25%,#051b88 88.29%);
+    color: #fff;
+}
+.phonelogin .phoneNumber form p{
+    /* margin-top: 4rem; */
+    display: block;
+    color: #222;
+    margin: 10px 0;
+    font-size: 14px;
+    font-weight: bold;
+}
+.phonelogin .phoneNumber form .formcheck{
+   margin: 20px 0;
+}
+.phonelogin .phoneNumber form .formcheck label{
+    color: #586cd8 ;
+    font-weight: 600;
+}
+.phonelogin .phoneNumber form .formcheck label a{
+    color: #586cd8;
+    font-weight: 600;
+    text-decoration: underline !important;
+}
+.phonelogin .phoneNumber img{
+    width: 30%;
+}
+
+.err{
+    color: red;
+    font-size: 12px;
+    margin: 10px 0 0;
+    display: block;
+  }
