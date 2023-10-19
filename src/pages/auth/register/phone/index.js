@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "@/styles/auth/Phone.module.css";
 import PhoneInput from "react-phone-input-2";
 import classNames from "classnames";
@@ -10,6 +10,8 @@ import { toast } from "react-toastify";
 
 const Index = () => {
   const router = useRouter();
+
+  const [loading, setLoading] = useState(false);
   const {
     register,
     control,
@@ -19,29 +21,28 @@ const Index = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    // console.log(data);
-    await Axiosintance.post(API.register_user,data)
-    .then((res)=>{
-      console.log(res.data.result);
-      const params = new URLSearchParams(data).toString();
-      router.push(`/auth/register/verify-otp/?${params}`);
-      localStorage.setItem("userInfo",JSON.stringify(res.data.result))
-    })
-   .catch((err)=>{
-    toast(err?.message ? err.response?.data?.message : err?.message, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
+    setLoading(true)
+    await Axiosintance.post(API.register_user, data)
+      .then((res) => {
+        console.log(res.data.result);
+        const params = new URLSearchParams(data).toString();
+        router.push(`/auth/register/verify-otp/?${params}`);
+        localStorage.setItem("userInfo", JSON.stringify(res.data.result));
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false)
+        toast(err?.data?.message , {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       });
-    // if(err?.response?.status === 409){
-    //   alert("This phone number is already registered");
-    // }
-   })
   };
 
   return (
@@ -53,18 +54,22 @@ const Index = () => {
               <div className={styles.phoneNumber}>
                 <h3>Sign in to E-pay</h3>
                 <form action="POST" onSubmit={handleSubmit(onSubmit)}>
-                 
                   <Controller
                     name="phone"
                     control={control}
-                    rules={{ required: "Phone number is required", maxLength: 10 }} // Add validation rules
+                    rules={{
+                      required: "Phone number is required",
+                      maxLength: 10,
+                    }} // Add validation rules
                     render={({ field }) => (
-                      <input  type="text"
-                      {...field}
-                      class="form-control"
-                   maxLength={10}
-                      placeholder="enter your mobile number"
-                      id="exampleFormControlInput1" />
+                      <input
+                        type="text"
+                        {...field}
+                        class="form-control"
+                        maxLength={10}
+                        placeholder="enter your mobile number"
+                        id="exampleFormControlInput1"
+                      />
                       // <PhoneInput
                       //   {...field}
                       //   buttonClass="phonecountry"
@@ -81,24 +86,36 @@ const Index = () => {
                   )}
 
                   <div class="mb-3">
-                    {/* <label for="exampleFormControlInput1" class="form-label">Email address</label> */}
                     <input
                       type="email"
                       class="form-control"
                       id="exampleFormControlInput1"
                       placeholder="name@example.com"
-                      {...register("email", { required: true })}
+                      {...register("email", {
+                        required: true,
+                        pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                      })}
+                      aria-invalid={errors.email ? "true" : "false"}
                     />
                   </div>
-                  {errors.email && <span className={styles.err}>This field is required</span>}
+                  {errors.email && (
+                    <span className={styles.err}>
+                      {" "}
+                      Email Address is required
+                    </span>
+                  )}
 
-                  <button
-                    type="submit"
-                    className={classNames(styles.otpBtn)}
-                    // onClick={()=>router.push("/auth/register/verify-otp")}
-                    // disabled={!phoneInputValue || !agreeToTerms}
-                  >
-                  Next 
+                  <button type="submit" className={classNames(styles.otpBtn)}>
+                    {loading ? (
+                      <>
+                        <div class="spinner-border spinner-border-sm" role="status">
+                          <span class="visually-hidden"></span>
+                        </div> 
+
+                      </>
+                    ) : (
+                      "Next"
+                    )}
                   </button>
                   <p>
                     Your journey to hassle-free utility payments begins here

@@ -27,7 +27,19 @@ const index = () => {
             draggable: true,
             progress: undefined,
             theme: "light",
-          });
+          })   
+    })
+    .catch((err)=>{
+      toast(err.data.message , {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      })   
     })
     
   };
@@ -39,8 +51,19 @@ const index = () => {
       client_id:aadharclient_id
     }).then((res) => {
       console.log(res);
-      
-    });
+    })
+    .catch((err)=>{
+      toast("Aadhar OTP is Wrong" , {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    })
   };
 
   useEffect(() => {

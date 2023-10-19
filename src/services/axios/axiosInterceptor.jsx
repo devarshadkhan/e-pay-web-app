@@ -2,7 +2,7 @@ import axios from "axios"
 
 
 const Axiosintance = axios.create({
-  baseURL:"https://5790-180-151-243-128.ngrok-free.app"
+  baseURL:"https://26f5-180-151-243-163.ngrok-free.app"
 })
 Axiosintance.interceptors.request.use(function (config) {
     // Do something before request is sent
