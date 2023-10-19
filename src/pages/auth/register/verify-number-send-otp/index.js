@@ -3,10 +3,9 @@ import { API } from "@/services/endpoints/apiendpoint";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import styles from "@/styles/auth/VerifyOTP.module.css";
+import styles from "@/styles/auth/Verification.module.css";
 import classNames from "classnames";
 import AuthImgSidebar from "@/components/AuthImgSidebar/AuthImgSidebar";
-import OTPInput from "react-otp-input";
 const Index = () => {
   const router = useRouter();
   const params = router.query;
@@ -17,7 +16,9 @@ const Index = () => {
 
   const [emailLoader, setEmailLoader] = useState(false);
   const [phoneLoader, setPhoneLoader] = useState(false);
-
+  const areBothOTPsEntered = () => {
+    return emailOTP.trim() !== "" && phoneOTP.trim() !== "";
+  };
   const handleEmailGetOTPClick = async () => {
     setEmailLoader(true);
 
@@ -26,7 +27,7 @@ const Index = () => {
     })
       .then((res) => {
         setEmailLoader(false);
-        toast("Successfully sent the OTP to your registered Email Id", {
+        toast(res.data.message, {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -40,7 +41,7 @@ const Index = () => {
 
       .catch((err) => {
         setEmailLoader(false);
-        toast("Failed to send the OTP to your registered Email Id", {
+        toast(err.message, {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -92,7 +93,7 @@ const Index = () => {
     })
       .then((res) => {
         setPhoneLoader(false);
-        toast("Attend the call OTP", {
+        toast(res.data.message, {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -148,7 +149,28 @@ const Index = () => {
       });
     }
   };
-  const [otp, setOtp] = useState('');
+
+
+  // next page clicked buton
+  const handleNextButtonClick = () => {
+    router.push(`/auth/register/verify-otp/?${_data}`);
+    // if (areBothOTPsEntered()) {
+    //   router.push(`/auth/register/verify-otp/?${_data}`);
+    // } else {
+    //   // setErrorMessage("Please enter both email and phone OTPs.");
+    //   toast("Please enter both email and phone OTPs.", {
+    //     position: "top-right",
+    //     autoClose: 5000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //     theme: "dark",
+    //   });
+    // }
+  };
+
   return (
     <>
       <div className={styles.verify_otp}>
@@ -168,27 +190,19 @@ const Index = () => {
                       <div className={classNames(styles.customInpOpt, "mb-5")}>
                         <div class="mb-3">
                           <label for="exampleInputEmail1" class="form-label">
-                            Email address OTP
+                            Email address
                           </label>
                           <div className="d-flex justify-content-between ">
-                            {/* <input
+                            <input
                               type="email"
                               // class="form-control"
                               id="exampleInputEmail1"
                               aria-describedby="emailHelp"
                               disabled
                               value={params.email || "jjh@gmail.com"}
-                            /> */}
+                            />
 
-                            <OTPInput
-        value={emailOTP}
-      onChange={setEmailOTP}
-      numInputs={6}
-      renderSeparator={<span>-</span>}
-      renderInput={(props) => <input {...props} />}
-    />
-
-                            {/* {emailLoader ? (
+                            {emailLoader ? (
                               <>
                                 <div
                                   class="spinner-grow text-secondary"
@@ -204,7 +218,7 @@ const Index = () => {
                                   send OTP
                                 </button>
                               </>
-                            )} */}
+                            )}
                           </div>
                         </div>
 
@@ -219,24 +233,17 @@ const Index = () => {
                       <div className={styles.customInpOpt}>
                         <div className="mb-3">
                           <label for="exampleInputEmail1" class="form-label">
-                         Enter    phone  OTP
+                            Email address
                           </label>
                           <div className="d-flex justify-content-between ">
-                            {/* <input
+                            <input
                               type="text"
                               name="phone"
                               id="phoneInput"
                               disabled
                               value={params.phone || "90909****"}
-                            /> */}
-                            <OTPInput
- value={phoneOTP}
-      onChange={setPhoneOTP}
-      numInputs={6}
-      renderSeparator={<span>-</span>}
-      renderInput={(props) => <input {...props} />}
-    />
-                            {/* {phoneLoader ? (
+                            />
+                            {phoneLoader ? (
                               <>
                                 <div
                                   class="spinner-grow text-secondary"
@@ -251,7 +258,7 @@ const Index = () => {
                                   send OTP
                                 </button>
                               </>
-                            )} */}
+                            )}
                           </div>
                         </div>
 
@@ -268,13 +275,18 @@ const Index = () => {
                       </div>
                       <div className="text-center">
                         <button
-                          onClick={() =>
-                            router.push(`/auth/register/password/?${_data}`)
-                          }
+                        //  disabled={!areBothOTPsEntered()}
+                          onClick={handleNextButtonClick}
                           className={styles.next_btn}
                         >
                           Next
                         </button>
+                        <p className="mt-3 fs-6 fw-bold">
+        {areBothOTPsEntered()
+          ? "You can now click the next button 👉"
+          : "OTP fill next page please enter both OTPs first"}
+      </p>
+                        {/* <p className="mt-3 fs-6 fw-bold">OTP fill next page please click the next button 👉</p> */}
                       </div>
                     </div>
                   </div>

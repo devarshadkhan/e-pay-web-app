@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import Axiosintance from "@/services/axios/axiosInterceptor";
 import { API } from "@/services/endpoints/apiendpoint";
 import { toast } from "react-toastify";
+import AuthImgSidebar from "@/components/AuthImgSidebar/AuthImgSidebar";
 
 const Index = () => {
   const router = useRouter();
@@ -21,18 +22,18 @@ const Index = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    setLoading(true)
+    setLoading(true);
     await Axiosintance.post(API.register_user, data)
       .then((res) => {
         console.log(res.data.result);
         const params = new URLSearchParams(data).toString();
-        router.push(`/auth/register/verify-otp/?${params}`);
+        router.push(`/auth/register/verify-number-send-otp/?${params}`);
         localStorage.setItem("userInfo", JSON.stringify(res.data.result));
         setLoading(false);
       })
       .catch((err) => {
-        setLoading(false)
-        toast(err?.data?.message , {
+        setLoading(false);
+        toast(err?.data?.message, {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -48,11 +49,17 @@ const Index = () => {
   return (
     <>
       <div className={styles.phonelogin}>
-        <div className="container">
+        <div className={classNames(styles.container_fluid , "container-fluid")}>
           <div className="row">
-            <div className={classNames("col-6", styles.colsecNum)}>
+            <div className="col-4">
+            <AuthImgSidebar />
+            </div>
+            <div className={classNames("col-8", styles.colsecNum)}>
               <div className={styles.phoneNumber}>
-                <h3>Sign in to E-pay</h3>
+                <h3>
+                  Join & Connect this Fast Growing{" "}
+                  <span className="break">Community</span>
+                </h3>
                 <form action="POST" onSubmit={handleSubmit(onSubmit)}>
                   <Controller
                     name="phone"
@@ -62,30 +69,30 @@ const Index = () => {
                       maxLength: 10,
                     }} // Add validation rules
                     render={({ field }) => (
-                      <input
-                        type="text"
-                        {...field}
-                        class="form-control"
-                        maxLength={10}
-                        placeholder="enter your mobile number"
-                        id="exampleFormControlInput1"
-                      />
-                      // <PhoneInput
-                      //   {...field}
-                      //   buttonClass="phonecountry"
-                      //   inputClass={classNames(
-                      //     "phonenumbercls",
-                      //     styles.errBorder
-                      //   )}
-                      //   country={"in"}
-                      // />
-                    )}
-                  />
-                  {errors.phone && (
+                      <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">
+                          Mobile Number
+                        </label>
+                        <input
+                          type="text"
+                          {...field}
+                          placeholder="90909090"
+                          class="form-control"
+                          id="exampleInputEmail1"
+                          aria-describedby="emailHelp"
+                        />
+                           {errors.phone && (
                     <span className={styles.err}>Phone number is required</span>
                   )}
+                      </div>
+                    )}
+                  />
+               
 
                   <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">
+                      Email address
+                    </label>
                     <input
                       type="email"
                       class="form-control"
@@ -97,21 +104,24 @@ const Index = () => {
                       })}
                       aria-invalid={errors.email ? "true" : "false"}
                     />
-                  </div>
-                  {errors.email && (
+                     {errors.email && (
                     <span className={styles.err}>
                       {" "}
                       Email Address is required
                     </span>
                   )}
+                  </div>
+                 
 
                   <button type="submit" className={classNames(styles.otpBtn)}>
                     {loading ? (
                       <>
-                        <div class="spinner-border spinner-border-sm" role="status">
+                        <div
+                          class="spinner-border spinner-border-sm"
+                          role="status"
+                        >
                           <span class="visually-hidden"></span>
-                        </div> 
-
+                        </div>
                       </>
                     ) : (
                       "Next"
@@ -122,12 +132,6 @@ const Index = () => {
                   </p>
                 </form>
               </div>
-            </div>
-            <div className="col-6">
-              <img
-                src="https://payrup.com/assets/images/signin/signin3.svg"
-                alt=""
-              />
             </div>
           </div>
         </div>

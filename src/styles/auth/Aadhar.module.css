@@ -55,3 +55,17 @@
     border-radius: 5px;
     /* margin-top: 2rem; */
 }
+
+.image_upload{
+
+}
+
+.image_upload .aadharSec{
+    text-align: center;
+}
+.image_upload .aadharSec img{
+    width: 100px;
+}
+/* .image_upload .aadharSec input{display: none;} */
+
+.Uploaded{width: 100px;}
